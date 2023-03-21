@@ -1,4 +1,11 @@
 VERSION=1.20.0
+NIGHTLY=$(shell date -I)-guinightly
+
+build.gui:
+	docker build --build-arg BASE=openmodelica/openmodelica:v$(VERSION)-ompython -t openmodelica/openmodelica:v$(VERSION)-gui - < Dockerfile.gui
+
+build.guinightly:
+	docker build --build-arg BASE=openmodelica/openmodelica:v$(VERSION)-ompython -t openmodelica/openmodelica:$(NIGHTLY) - < Dockerfile.guinightly
 
 build:
 	docker build --build-arg VERSION=$(VERSION) -t openmodelica/openmodelica:v$(VERSION)-minimal - < Dockerfile
