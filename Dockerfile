@@ -2,7 +2,7 @@ FROM ubuntu:jammy
 
 ARG VERSION
 
-MAINTAINER Martin Sjölund <martin.sjolund@liu.se>
+LABEL Martin Sjölund <martin.sjolund@liu.se>
 
 RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test ! -z "$VERSION" && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy\
     && apt-get install -qy gnupg wget ca-certificates apt-transport-https \
