@@ -19,4 +19,4 @@ docker run \
 	--user="$(id -u):$(id -g)" \
 	--rm -dt \
 	--name=openmodelica \
-	openmodelica/openmodelica:$OMVER-gui OMEdit
+	ppenguin/openmodelica:$OMVER-gui OMEdit
