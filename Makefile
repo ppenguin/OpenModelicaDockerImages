@@ -8,9 +8,9 @@ ifeq ($(DOCKERHUBTOKEN),)
 endif
 
 .PHONY: build.gui
-build.gui: $(BDIR)/openmodelica-v$(VERSION)-gui.info
+build.gui: $(BDIR)/openmodelica-$(VERSION)-gui.info
 
-upload.gui: $(BDIR)/openmodelica-v$(VERSION)-gui.info
+upload.gui: $(BDIR)/openmodelica-$(VERSION)-gui.info
 	echo "$(DOCKERHUBTOKEN)" | docker login --username ppenguin --password-stdin
 	docker push ppenguin/openmodelica:v$(VERSION)-gui
 
@@ -18,7 +18,7 @@ upload.gui: $(BDIR)/openmodelica-v$(VERSION)-gui.info
 $(BDIR)/%-minimal.info: | $(BDIR)/
 	docker build $(DOPT) \
 		--build-arg VERSION=$$(echo '$(notdir $*)' | awk -F'-' '{ print $$2 }') \
-		-t ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":"$$2 }')-minimal \
+		-t ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":v"$$2 }')-minimal \
 		- < Dockerfile \
 	&& date -Is > $@
 
@@ -26,7 +26,7 @@ $(BDIR)/%-minimal.info: | $(BDIR)/
 $(BDIR)/%-ompython.info: $(BDIR)/%-minimal.info | $(BDIR)/
 	docker build $(DOPT) \
 		--build-arg BASE=ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":"$$2 }')-minimal \
-		-t ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":"$$2 }')-ompython \
+		-t ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":v"$$2 }')-ompython \
 		- < Dockerfile.ompython \
 	&& date -Is > $@
 
@@ -34,7 +34,7 @@ $(BDIR)/%-ompython.info: $(BDIR)/%-minimal.info | $(BDIR)/
 $(BDIR)/%-gui.info: $(BDIR)/%-ompython.info | $(BDIR)/
 	docker build $(DOPT) \
 		--build-arg BASE=ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":"$$2 }')-ompython \
-		-t ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":"$$2 }')-gui \
+		-t ppenguin/$$(echo '$(notdir $*)' | awk -F'-' '{ print $$1":v"$$2 }')-gui \
 		- < Dockerfile.gui \
 	&& date -Is > $@
 
