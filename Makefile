@@ -8,9 +8,9 @@ ifeq ($(DOCKERHUBTOKEN),)
 endif
 
 .PHONY: build.gui
-build.gui: $(BDIR)/openmodelica-$(VERSION)-gui.info
+build.gui: $(BDIR)/openmodelica-v$(VERSION)-gui.info
 
-upload.gui: $(BDIR)/openmodelica-$(VERSION)-gui.info
+upload.gui: $(BDIR)/openmodelica-v$(VERSION)-gui.info
 	echo "$(DOCKERHUBTOKEN)" | docker login --username ppenguin --password-stdin
 	docker push ppenguin/openmodelica:v$(VERSION)-gui
 
