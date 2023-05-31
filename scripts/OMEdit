@@ -2,9 +2,10 @@
 
 OMVER=${OMVER:-v1.21.0}
 WD="${WD:-$(pwd)}"
+TEMPDIR="${TEMPDIR:-${WD}/.OMTemp}"
 echo "using OM version $OMVER XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR:/tmp / WAYLAND_DISPLAY=$WAYLAND_DISPLAY"
 
-# mkdir -p "$TEMPDIR"
+mkdir -p "$TEMPDIR"
 docker run \
 	--network=host \
 	-e XDG_RUNTIME_DIR="/tmp" \
@@ -14,6 +15,7 @@ docker run \
 	-e MODELICAPATH="$HOME/.openmodelica/libraries" \
 	-v "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY"  \
 	-v "$HOME:$HOME" \
+	-v "$TEMPDIR:/tmp" \
 	-w "$WD" \
 	-e HOME="$HOME" \
 	--user="$(id -u):$(id -g)" \
